@@ -1,0 +1,92 @@
+# vim:fdm=marker
+$include /etc/inputrc
+
+## Settings
+# bell-style (audible)
+# Controls what happens when readline wants to ring the terminal bell. If set to none, readline never rings the bell. If set to visible, readline uses a visible bell if one is available. If set to audible, readline attempts to ring the terminal's bell.
+set bell-style visible
+
+# echo-control-characters (On)
+# When set to On, on operating systems that indicate they support it, readline echoes a character corresponding to a signal generated from the keyboard.
+set echo-control-characters off
+
+# enable-bracketed-paste (Off)
+# When  set  to  On,  readline will configure the terminal in a way that will enable it to insert each paste into the editing  buffer as  a single string of characters, instead of treating each character as if it had been read from the keyboard.  This can prevent pasted characters from being interpreted as editing commands.
+set enable-bracketed-paste on
+
+# vi mode {{{
+# editing-mode (emacs)
+# Controls whether readline begins with a set of key bindings similar to Emacs or vi. editing-mode can be set to either emacs or vi.
+set editing-mode vi
+
+# show-mode-in-prompt (Off)
+# If set to On, add a character to the beginning of the prompt indicating the editing mode: emacs (@), vi command (:) or vi insertion (+).
+set show-mode-in-prompt on
+set vi-cmd-mode-string ""
+set vi-ins-mode-string ""
+#}}}
+
+# completion {{{
+# completion-ignore-case (Off)
+# If set to On, readline performs filename matching and completion in a case-insensitive fashion.
+set completion-ignore-case on
+
+# completion-map-case (Off)
+# If set to On, and completion-ignore-case is enabled, readline treats hyphens (-) and underscores (_) as equivalent when performing case-insensitive filename matching and completion.
+set completion-map-case on
+
+# completion-prefix-display-length (0)
+# The length in characters of the common prefix of a list of possible completions that is displayed without modification. When set to a value greater than zero, common prefixes longer than this value are replaced with an ellipsis when displaying possible completions.
+set completion-prefix-display-length 4
+
+# menu-complete-display-prefix (Off)
+# If set to On, menu completion displays the common prefix of the list of possible completions (which may be empty) before cycling through the list.
+set menu-complete-display-prefix on
+
+# colored-stats (Off)
+# If set to On, readline displays possible completions using different colors to indicate their file type. The color definitions are taken from the value of the LS_COLORS environment variable.
+set colored-stats on
+
+# show-all-if-ambiguous (Off)
+# This alters the default behavior of the completion functions. If set to On, words which have more than one possible completion cause the matches to be listed immediately instead of ringing the bell.
+set show-all-if-ambiguous on
+
+# show-all-if-unmodified (Off)
+# This alters the default behavior of the completion functions in a fashion similar to show-all-if-ambiguous. If set to On, words which have more than one possible completion without any possible partial completion (the possible completions don't share a common prefix) cause the matches to be listed immediately instead of ringing the bell.
+set show-all-if-unmodified on
+#}}}
+
+# Keymaps {{{
+# CTRL-I is the "leader" for readline hotkeys
+
+# dump-functions / variables / macros
+# Print all of the functions and their key bindings / settable readline variables / key sequences bound to macros 
+"\C-id": dump-functions dump-variables dump-macros
+
+# re-read-init-file
+# Read in the contents of the inputrc  file,  and  incorporate  any bindings or variable assignments found there.
+"\C-ir": re-read-init-file
+
+# bash-specific keybinds
+$if Bash
+	# menu-complete
+	# Similar to complete, but replaces the word to be completed with a single match from the list of possible completions. Repeated execution of menu-complete steps through the list of possible completions, inserting each match in turn. At the end of the list of completions, the bell is rung (subject to the setting of bell-style) and the original text is restored. An argument of n moves n positions forward in the list of matches; a negative argument may be used to move backward through the list. This command is intended to be bound to TAB, but is unbound by default.
+	TAB: menu-complete
+
+	# menu-complete-backward
+	# Identical to menu-complete, but moves backward through the list of possible completions, as if menu-complete had been given a negative argument. This command is unbound by default.
+	"\e[Z": menu-complete-backward
+
+	# magic-space
+	# Perform history expansion on the current line and insert a space. See HISTORY EXPANSION below for a description of history expansion.
+	Space: magic-space
+
+	# history-search-backward
+	# Search backward through the history for the string of characters between the start of the current line and the point. This is a non-incremental search.
+	"\e[A": history-search-backward
+
+	# history-search-forward
+	# Search forward through the history for the string of characters between the start of the current line and the point. This is a non-incremental search.
+	"\e[B": history-search-forward
+$endif
+#}}}
