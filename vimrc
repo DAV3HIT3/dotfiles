@@ -455,6 +455,12 @@ if has('autocmd')
 		autocmd QuickFixCmdPost * botright cwindow
 	augroup END
 
+	" VertHelp: Put help window in a vertical split
+	augroup VertHelp
+		autocmd!
+		autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+	augroup END
+
 	" VimStartup:  startup necessities, runs after vim startup sequence complete
 	augroup VimStartup
 		au!
@@ -468,8 +474,8 @@ if has('autocmd')
 	" WindowCleaner: window-specific settings for buffer / filetypes
 	augroup WindowCleaner
 		au!
-		"autocmd WinEnter * if index(s:buf_cursorline, &ft) >= 0 | :setlocal cursorline
-		"autocmd WinEnter * if index(s:buf_nonumber, &ft) >= 0	| :setlocal nobuflisted nonumber norelativenumber
+		autocmd WinEnter * if index(s:buf_cursorline, &ft) >= 0 | :setlocal cursorline
+		autocmd WinEnter * if index(s:buf_nonumber, &ft) >= 0	| :setlocal nobuflisted nonumber norelativenumber
 
 		"autocmd WinEnter * if index(s:buf_nonumber, &ft) < 0	| :setlocal number relativenumber
 		"autocmd WinLeave * if index(s:buf_nonumber, &ft) < 0	| :setlocal nonumber norelativenumber
