@@ -57,6 +57,8 @@ set textwidth=80
 set nowrap
 " (.,/usr/include,,) List of dirs to search with some commands
 set path=.,**
+" (off) Do not redraw screen while executing and other non-typed commands
+set lazyredraw
 " }}}
 " Unicode {{{
 " Symbols are restricted to PragmataPro and FontAwesome
@@ -177,11 +179,6 @@ endif
 " Ripgrep {{{
 if executable('rg')
 	set grepprg=rg\ --vimgrep
-endif
-"}}}
-" FZF {{{
-if isdirectory('/usr/local/opt/fzf')
-	set runtimepath+=/usr/local/opt/fzf
 endif
 "}}}
 " Plugins {{{
@@ -407,6 +404,29 @@ else
 	map <C-l> <C-w>l
 endif
 "}}}
+" SetUndojoinFlag: move currentline or selection up/down with arrow keys {{{
+function! s:SetUndojoinFlag(mode)
+	augroup undojoin_flag
+		autocmd!
+		if a:mode ==# 'v'
+			autocmd CursorMoved * autocmd undojoin_flag CursorMoved * autocmd! undojoin_flag
+		else
+			autocmd CursorMoved * autocmd! undojoin_flag
+		endif
+	augroup END
+endfunction
+
+function! s:Undojoin()
+	if exists('#undojoin_flag#CursorMoved')
+		silent! undojoin
+	endif
+endfunction
+
+nnoremap <silent> <Down> :<C-u>call <SID>Undojoin()<CR>:<C-u>move +1<CR>==:<C-u>call <SID>SetUndojoinFlag('n')<CR>
+nnoremap <silent> <Up>   :<C-u>call <SID>Undojoin()<CR>:<C-u>move -2<CR>==:<C-u>call <SID>SetUndojoinFlag('n')<CR>
+xnoremap <silent> <Down> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '>+1<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
+xnoremap <silent> <Up>   :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '<-2<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
+" }}}
 " }}}
 " Autocommands {{{
 let s:buf_nonumber = ['man', 'help', 'qf', 'tagbar']

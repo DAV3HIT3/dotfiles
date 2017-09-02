@@ -20,3 +20,5 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/g
 source ~/Projects/c3e/zsh/c3e-zsh.sh
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
