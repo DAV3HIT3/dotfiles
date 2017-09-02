@@ -1,12 +1,18 @@
 " vim:ft=vim:fdm=marker
-
+" 24-bit color {{{
+if has('termguicolors')
+	set termguicolors
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+" }}}
 " Vim options {{{
 " (\) leader key
 let g:mapleader = ' '
 " (off, off, off) Enable filetype detection, indentation, plugin
 filetype indent plugin on
 " (off) Enable syntax highlighting
-syntax on
+syntax enable
 " (off) automatically save undo history to undo file when writing
 set undofile
 " ("") clipboard
@@ -64,6 +70,7 @@ set lazyredraw
 " Symbols are restricted to PragmataPro and FontAwesome
 " Unicode symbols {{{
 let s:unicode_on = 1
+
 let g:sym_eol		= (s:unicode_on == 1) ? "¶" : "¶"
 let g:sym_tab		= (s:unicode_on == 1) ? ">-": ">-"
 let g:sym_space		= (s:unicode_on == 1) ? "⬝" : "."
@@ -109,8 +116,13 @@ let g:sym_paste		= (s:unicode_on == 1) ? "" : "ρ"
 let g:sym_spell		= (s:unicode_on == 1) ? "" : "Ꞩ"
 let g:sym_notexists	= (s:unicode_on == 1) ? "" : "∄"
 
+let g:sym_warning	= (s:unicode_on == 1) ? "" : ">>"
+let g:sym_error		= (s:unicode_on == 1) ? "" : "--"
+
 let g:sym_subscripts	= ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"]
 let g:sym_superscripts	= ["⁰","¹","²","³","⁴","⁵","⁶","⁷","⁸","⁹"]
+
+
 "}}}
 " (tab:> ,trail:-,nbsp:+) listchars {{{
 if (g:sym_eol != "")
@@ -230,6 +242,8 @@ let g:ale_fixers = {
 			\ 'vim': ['vint']
 			\}
 let g:ale_vim_vint_show_style_issues = 1
+let g:ale_sign_warning = g:sym_warning
+let g:ale_sign_error = g:sym_error
 "}}}
 " Cscope {{{
 " In project root: $cscope -R -b
@@ -350,6 +364,7 @@ function! <SID>AutoMkdir() abort
 endfunction
 " }}}
 " FoldText: customized fold formatting {{{
+" [TODO] Speed this up. Too slow!
 if has('folding')
 	function! FoldText()
 		" prefix with the fold symbol repeated 1 time per foldlevel
@@ -430,47 +445,49 @@ xnoremap <silent> <Up>   :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '<-2<CR>g
 " }}}
 " }}}
 " Autocommands {{{
-let s:buf_nonumber = ['man', 'help', 'qf', 'tagbar']
-let s:buf_cursorline = ['qf', 'tagbar']
+if has('autocmd')
+	let s:buf_nonumber = ['man', 'help', 'qf', 'tagbar']
+	let s:buf_cursorline = ['qf', 'tagbar']
 
-" GrepWindow : stick grep results in full-width bottom quickfix window
-augroup GrepWindow
-	au!
-	autocmd QuickFixCmdPost * botright cwindow
-augroup END
+	" GrepWindow : stick grep results in full-width bottom quickfix window
+	augroup GrepWindow
+		au!
+		autocmd QuickFixCmdPost * botright cwindow
+	augroup END
 
-" VimStartup:  startup necessities, runs after vim startup sequence complete
-augroup VimStartup
-	au!
-	" set colorscheme diff vs. non-diff
-	autocmd VimEnter * call C3E_ToggleColorscheme()
-	autocmd VimEnter * call C3E_TablineRefresh()
-	autocmd VimEnter * :AirlineRefresh
-	autocmd VimEnter * execute 'hi Normal guibg=NONE ctermbg=NONE'
-augroup END
+	" VimStartup:  startup necessities, runs after vim startup sequence complete
+	augroup VimStartup
+		au!
+		" set colorscheme diff vs. non-diff
+		autocmd VimEnter * call C3E_ToggleColorscheme()
+		autocmd VimEnter * call C3E_TablineRefresh()
+		autocmd VimEnter * :AirlineRefresh
+		autocmd VimEnter * execute 'hi Normal guibg=NONE ctermbg=NONE'
+	augroup END
 
-" WindowCleaner: window-specific settings for buffer / filetypes
-augroup WindowCleaner
-	au!
-	autocmd WinEnter * if index(s:buf_cursorline, &ft) >= 0 | :setlocal cursorline
-	autocmd WinEnter * if index(s:buf_nonumber, &ft) < 0	| :setlocal number relativenumber
-	autocmd WinEnter * if index(s:buf_nonumber, &ft) >= 0	| :setlocal nobuflisted nonumber norelativenumber
+	" WindowCleaner: window-specific settings for buffer / filetypes
+	augroup WindowCleaner
+		au!
+		"autocmd WinEnter * if index(s:buf_cursorline, &ft) >= 0 | :setlocal cursorline
+		"autocmd WinEnter * if index(s:buf_nonumber, &ft) >= 0	| :setlocal nobuflisted nonumber norelativenumber
 
-	autocmd WinLeave * if index(s:buf_nonumber, &ft) < 0	| :setlocal nonumber norelativenumber
-augroup END
+		"autocmd WinEnter * if index(s:buf_nonumber, &ft) < 0	| :setlocal number relativenumber
+		"autocmd WinLeave * if index(s:buf_nonumber, &ft) < 0	| :setlocal nonumber norelativenumber
+	augroup END
 
-" DashKeywordSetter: Set DashKeywords based on filetype
-augroup DashKeywordSetter
-	au!
-	autocmd FileType * if index(s:buf_nonumber, &ft) < 0 | execute "DashKeywords! " . &ft
-augroup END
+	" DashKeywordSetter: Set DashKeywords based on filetype
+	augroup DashKeywordSetter
+		au!
+		"autocmd FileType * if index(s:buf_nonumber, &ft) < 0 | execute "DashKeywords! " . &ft
+	augroup END
 
-" AutoMkdir: Make directory(ies) if they don't exists when creating a new file
-augroup AutoMkdir
-	autocmd!
-	autocmd BufWritePre,FileWritePre,BufNewFile *
-				\ call <SID>AutoMkdir()
-augroup END
+	" AutoMkdir: Make directory(ies) if they don't exists when creating a new file
+	augroup AutoMkdir
+		autocmd!
+		autocmd BufWritePre,FileWritePre,BufNewFile *
+					\ call <SID>AutoMkdir()
+	augroup END
+endif
 "}}}
 " Colorscheme {{{
 " NOTE: Must be *after* plugin section
