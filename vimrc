@@ -1,5 +1,6 @@
 " vim:ft=vim:fdm=marker
 
+" Vim options {{{
 " (\) leader key
 let g:mapleader = ' '
 " (off, off, off) Enable filetype detection, indentation, plugin
@@ -56,10 +57,134 @@ set textwidth=80
 set nowrap
 " (.,/usr/include,,) List of dirs to search with some commands
 set path=.,**
-let g:C3E_FKeys=1
-let g:C3E_Browser='ranger'
+" }}}
+" Unicode {{{
+" Symbols are restricted to PragmataPro and FontAwesome
+" Unicode symbols {{{
+let s:unicode_on = 1
+let g:sym_eol		= (s:unicode_on == 1) ? "¶" : "¶"
+let g:sym_tab		= (s:unicode_on == 1) ? ">-": ">-"
+let g:sym_space		= (s:unicode_on == 1) ? "⬝" : "."
+let g:sym_trail		= (s:unicode_on == 1) ? "" : "-"
+let g:sym_extends	= (s:unicode_on == 1) ? "⮐" : "v"
+let g:sym_precedes	= (s:unicode_on == 1) ? "⭇" : "^"
+let g:sym_conceal	= (s:unicode_on == 1) ? "" : "~"
+let g:sym_nbsp		= (s:unicode_on == 1) ? "␣" : "-"
 
-" Plugins (via vim-plug) {{{
+let g:sym_vimtab	= (s:unicode_on == 1) ? "" : "{}"
+let g:sym_buffer	= (s:unicode_on == 1) ? "" : "[]"
+let g:sym_expand_left	= (s:unicode_on == 1) ? "🠸" : "<-"
+let g:sym_expand_right	= (s:unicode_on == 1) ? "🠺" : "->"
+let g:sym_ellipsis	= (s:unicode_on == 1) ? "" : "..."
+
+let g:sym_fold_prefix	= (s:unicode_on == 1) ? "" : "+"
+
+let g:sym_sep_L_pri	= (s:unicode_on == 1) ? "" : ">"
+let g:sym_sep_R_pri	= (s:unicode_on == 1) ? "" : "<"
+let g:sym_sep_L_sec	= (s:unicode_on == 1) ? "" : ")"
+let g:sym_sep_R_sec	= (s:unicode_on == 1) ? "" : "("
+
+let g:sym_locked	= (s:unicode_on == 1) ? "" : "X"
+let g:sym_unlocked	= (s:unicode_on == 1) ? "" : "O"
+let g:sym_git		= (s:unicode_on == 1) ? "" : "#"
+
+let g:sym_line_number	= (s:unicode_on == 1) ? "" : "L"
+let g:sym_line_number_t	= (s:unicode_on == 1) ? "" : "#"
+let g:sym_column_number	= (s:unicode_on == 1) ? "" : "C"
+
+let g:sym_modified	= (s:unicode_on == 1) ? "" : "+"
+let g:sym_nomodifiable	= (s:unicode_on == 1) ? "" : "-"
+
+let g:sym_showbreak	= (s:unicode_on == 1) ? "⮑" : ">"
+let g:sym_fill_fold	= (s:unicode_on == 1) ? "" : "-"
+let g:sym_fill_vert	= (s:unicode_on == 1) ? "┃" : "]"
+let g:sym_fill_diff	= (s:unicode_on == 1) ? "" : "-"
+
+let g:sym_fill_stl	= (s:unicode_on == 1) ? "" : ""
+let g:sym_fill_stlnc	= (s:unicode_on == 1) ? "" : ""
+
+let g:sym_paste		= (s:unicode_on == 1) ? "" : "ρ"
+let g:sym_spell		= (s:unicode_on == 1) ? "" : "Ꞩ"
+let g:sym_notexists	= (s:unicode_on == 1) ? "" : "∄"
+
+let g:sym_subscripts	= ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"]
+let g:sym_superscripts	= ["⁰","¹","²","³","⁴","⁵","⁶","⁷","⁸","⁹"]
+"}}}
+" (tab:> ,trail:-,nbsp:+) listchars {{{
+if (g:sym_eol != "")
+	execute 'set listchars+=eol:'		. g:sym_eol
+endif
+
+if (g:sym_tab != "")
+	execute 'set listchars+=tab:'		. g:sym_tab
+endif
+
+if (g:sym_space != "")
+	execute 'set listchars+=space:'		. g:sym_space
+endif
+
+if (g:sym_trail != "")
+	execute 'set listchars+=trail:'		. g:sym_trail
+endif
+
+if (g:sym_extends != "")
+	execute 'set listchars+=extends:'	. g:sym_extends
+endif
+
+if (g:sym_precedes != "")
+	execute 'set listchars+=precedes:'	. g:sym_precedes
+endif
+
+if (g:sym_conceal != "")
+	execute 'set listchars+=conceal:'	. g:sym_conceal
+endif
+
+if (g:sym_nbsp != "")
+	execute 'set listchars+=nbsp:'		. g:sym_nbsp
+endif
+"}}}
+" (vert:|,fold:-) fillchars {{{
+if ( has("linebreak") && has("folding"))
+	if (g:sym_fill_fold != "")
+		execute 'set fillchars+=fold:'	. g:sym_fill_fold
+	endif
+
+	if (g:sym_fill_vert != "")
+		execute 'set fillchars+=vert:'	. g:sym_fill_vert
+	endif
+
+	if (g:sym_fill_diff != "")
+		execute 'set fillchars+=diff:'	. g:sym_fill_diff
+	endif
+
+	if (g:sym_fill_stl != "")
+		execute 'set fillchars+=stl:'	. g:sym_fill_stl
+	endif
+
+	if (g:sym_fill_stlnc != "")
+		execute 'set fillchars+=stlnc:'	. g:sym_fill_stlnc
+	endif
+endif
+"}}}
+" ("") showbreak {{{
+if has("linebreak")
+	if (g:sym_showbreak != "")
+		execute 'set showbreak='	. g:sym_showbreak
+	endif
+endif
+"}}}
+"}}}
+" Ripgrep {{{
+if executable('rg')
+	set grepprg=rg\ --vimgrep
+endif
+"}}}
+" FZF {{{
+if isdirectory('/usr/local/opt/fzf')
+	set runtimepath+=/usr/local/opt/fzf
+endif
+"}}}
+" Plugins {{{
 call plug#begin('~/.vim/plugged')
 " Retro groove color scheme for Vim
 Plug 'morhetz/gruvbox'
@@ -93,16 +218,96 @@ if has('osx')
 endif
 
 " C3E Plugin(s)
-Plug '~/Projects/C3E/c3e-vim'
 Plug '~/Projects/C3E/c3e-vim-tabline'
 Plug '~/Projects/C3E/c3e-vim-leader'
 call plug#end()
 " }}}
+" Plugin config {{{
+let g:C3E_FKeys=1
+let g:C3E_Browser='ranger'
 
-let g:gruvbox_italic=1
-colorscheme gruvbox
+" ALE: Asynchronous Linting Engine {{{
+let g:airline#extensions#ale#enabled = 1
 
-" Directory locations {{{
+let g:ale_fixers = {
+			\ 'vim': ['vint']
+			\}
+let g:ale_vim_vint_show_style_issues = 1
+"}}}
+" Cscope {{{
+" In project root: $cscope -R -b
+if has("cscope")
+	" (nocscopetag) search cscope db as well as tag files
+	set cscopetag
+
+	" add cscope db in current directory if readable
+	" or environment variable $CSCOPE_DB if present and readable
+	if filereadable("cscope.out")
+		cscope add cscope.out
+	elseif $CSCOPE_DB != ""
+		if filereadable($CSCOPE_DB)
+			cscope add $CSCOPE_DB
+		endif
+	endif
+
+endif
+" }}}
+" vim-airline {{{
+let g:airline#extensions#tabline#enabled = 0
+let g:airline_theme='dark'
+
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+
+"}}}
+" netrw {{{
+" tree style listing
+let g:netrw_liststyle=3
+" netrw window size (percentage)
+let g:netrw_winsize=30
+" vertical split default for previewing files
+let g:netrw_preview=1
+" prevent gx map while editing
+let g:netrw_nogx=1
+" suppress history
+let g:netrw_dirhistmax=0
+"}}}
+" Rainbow {{{
+let g:rainbow_active = 1
+"}}}
+" Tagbar {{{
+let g:tagbar_zoomwidth = 0
+let g:tagbar_compact = 1
+let g:tagbar_status_func = 'TagbarStatusFunc'
+
+" TagbarStatusFunc {{{
+function! TagbarStatusFunc(current, sort, fname, ...) abort
+	let g:lightline.fname = a:fname
+	return lightline#statusline(0)
+endfunction
+" }}}
+" }}}
+" YouCompleteMe {{{
+" ("~/.vim/.ycm_extra_conf.py"eneric YCM conf") Default / Global YCM config
+let g:C3E_YCM_conf='~/.vim/.ycm_extra_conf.py'
+if filereadable(g:C3E_YCM_conf)
+	let g:ycm_global_ycm_extra_conf = g:C3E_YCM_conf
+endif
+
+" (1) Turn on/off YCM's diagnostic display (when set, disables Syntastic)
+let g:ycm_show_diagnostics_ui = 1
+
+" (<leader>d) Show full diagnostic text when cursor on line with diagnostic
+let g:ycm_key_detailed_diagnostics = ''
+
+let g:ycm_collect_identifiers_from_tags_files = 1
+
+" (1) prompt before loading .ycm_extra_conf.py
+let g:ycm_confirm_extra_conf = 0
+"}}}
+"}}}
+" Directories {{{
 
 " viminfo
 if has('viminfo')
@@ -116,17 +321,17 @@ if has('viminfo')
 endif
 
 " undodir
-"if has("persistent_undo")
-"	let s:undo_dir = expand("~/.vim")
-"
-"	" (.) List of directory names for undo files, seperated with commas
-"	if isdirectory(s:undo_dir)
-"		execute "set undodir+=n" . s:undo_dir . "/undodir"
-"	endif
-"
-"endif
-"}}}
-" Custom mappings {{{
+if has('persistent_undo')
+	let s:undo_dir = expand('~/.vim')
+
+	" (.) List of directory names for undo files, seperated with commas
+	if isdirectory(s:undo_dir)
+		execute 'set undodir+=n' . s:undo_dir . '/undodir'
+	endif
+
+endif
+" }}}
+" Mappings {{{
 " Y to act like D and C, i.e. to yank until EOL
 map Y y$
 " i instead of I to insert in visual mode
@@ -136,17 +341,72 @@ cnoremap  w!! w !sudo tee % > /dev/null
 "}}}
 " Functions {{{
 " AutoMkdir: auto-create missing directory(ies) for new files/buffers {{{
-" https://www.reddit.com/r/vim/comments/4tb61s/weekly_vim_tips_and_tricks_thread_19/d5g0iik/ 
-function! <SID>AutoMkdir() abort 
-    let l:dir = expand('<afile>:p:h')
-    let l:file = expand('<afile>:t')
-    if !isdirectory(l:dir)
-        call mkdir(l:dir, 'p')
-        silent execute 'bw ' . l:dir . '/' . l:file
-        silent execute 'e ' . l:dir . '/' . l:file
-    endif
+" https://www.reddit.com/r/vim/comments/4tb61s/weekly_vim_tips_and_tricks_thread_19/d5g0iik/
+function! <SID>AutoMkdir() abort
+	let l:dir = expand('<afile>:p:h')
+	let l:file = expand('<afile>:t')
+	if !isdirectory(l:dir)
+		call mkdir(l:dir, 'p')
+		silent execute 'bw ' . l:dir . '/' . l:file
+		silent execute 'e ' . l:dir . '/' . l:file
+	endif
 endfunction
 " }}}
+" FoldText: customized fold formatting {{{
+if has('folding')
+	function! FoldText()
+		" prefix with the fold symbol repeated 1 time per foldlevel
+		let l:prefix = repeat(g:sym_fold_prefix . ' ', v:foldlevel)
+
+		let l:numfmt = printf('%3d', v:foldend - v:foldstart)
+		let l:lineinfo =  '(' . l:numfmt . ' lines) '
+
+		let l:spacing = winwidth(0) - strlen(l:prefix) - strlen(l:lineinfo) - 2
+
+		" get first line of the fold
+		let l:line = getline(v:foldstart)
+
+		" clean up the line (remove comments, etc.)
+		let l:title = substitute(l:line, '/\*\|\*/\|{\{3}\d\=', '', 'g')
+		let l:atitle = printf('%-' . l:spacing . '.' . l:spacing . 's', l:title)
+
+
+		return l:prefix . l:atitle . l:lineinfo
+	endfunction
+
+	" (foldtext()) Expression used to specify the text displayed for closed fold
+	set foldtext=FoldText()
+endif
+" }}}
+" TmuxOrSplitSwitch {{{
+" C-h/j/k/l to move between tmux splits and vim windows seamlessly
+" [TODO] Give credit for this, can't remember where I found it
+" [TODO] Why is "l:previous_title" an illegal variable name?
+if exists('$TMUX')
+	function! TmuxOrSplitSwitch(wincmd, tmuxdir)
+		let l:previous_winnr = winnr()
+		silent! execute 'wincmd ' . a:wincmd
+		if l:previous_winnr == winnr()
+			call system('tmux select-pane -' . a:tmuxdir)
+			redraw!
+		endif
+	endfunction
+
+	let previous_title = substitute(system("tmux display-message -p '#{pane_title}'"), '\n', '', '')
+	let &t_ti = "\<Esc>]2;vim\<Esc>\\" . &t_ti
+	let &t_te = "\<Esc>]2;". previous_title . "\<Esc>\\" . &t_te
+
+	nnoremap <silent> <C-h> :call TmuxOrSplitSwitch('h', 'L')<cr>
+	nnoremap <silent> <C-j> :call TmuxOrSplitSwitch('j', 'D')<cr>
+	nnoremap <silent> <C-k> :call TmuxOrSplitSwitch('k', 'U')<cr>
+	nnoremap <silent> <C-l> :call TmuxOrSplitSwitch('l', 'R')<cr>
+else
+	map <C-h> <C-w>h
+	map <C-j> <C-w>j
+	map <C-k> <C-w>k
+	map <C-l> <C-w>l
+endif
+"}}}
 " }}}
 " Autocommands {{{
 let s:buf_nonumber = ['man', 'help', 'qf', 'tagbar']
@@ -186,8 +446,13 @@ augroup END
 
 " AutoMkdir: Make directory(ies) if they don't exists when creating a new file
 augroup AutoMkdir
-    autocmd!
-    autocmd BufWritePre,FileWritePre,BufNewFile *
-        \ call <SID>AutoMkdir()
+	autocmd!
+	autocmd BufWritePre,FileWritePre,BufNewFile *
+				\ call <SID>AutoMkdir()
 augroup END
 "}}}
+" Colorscheme {{{
+" NOTE: Must be *after* plugin section
+let g:gruvbox_italic=1
+colorscheme gruvbox
+" }}}
