@@ -405,6 +405,7 @@ else
 endif
 "}}}
 " SetUndojoinFlag: move currentline or selection up/down with arrow keys {{{
+" https://www.reddit.com/r/vim/comments/4f79fd/weekly_vim_tips_and_tricks_thread_6/d26lf3l/
 function! s:SetUndojoinFlag(mode)
 	augroup undojoin_flag
 		autocmd!
