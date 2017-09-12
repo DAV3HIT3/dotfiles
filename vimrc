@@ -220,6 +220,8 @@ Plug 'luochen1990/rainbow'
 " A command-line fuzzy finder written in Go
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+" The ultimate undo history visualizer for VIM
+Plug 'mbbill/undotree'
 
 if has('osx')
 	" Search Dash.app from Vim
@@ -319,12 +321,9 @@ let g:ycm_confirm_extra_conf = 0
 "}}}
 "}}}
 " Directories {{{
-
+let s:vim_dir = expand('~/.vim')
 " viminfo
 if has('viminfo')
-	" vim settings directory
-	let s:vim_dir = expand('~/.vim')
-
 	" (~/.viminfo) Set viminfo file location
 	if isdirectory(s:vim_dir)
 		execute 'set viminfo+=n' . s:vim_dir . '/viminfo'
@@ -332,15 +331,13 @@ if has('viminfo')
 endif
 
 " undodir
-if has('persistent_undo')
-	let s:undo_dir = expand('~/.vim')
-
-	" (.) List of directory names for undo files, seperated with commas
-	if isdirectory(s:undo_dir)
-		execute 'set undodir+=n' . s:undo_dir . '/undodir'
-	endif
-
-endif
+"if has('persistent_undo')
+"	" (.) List of directory names for undo files, seperated with commas
+"	if isdirectory(s:undo_dir)
+"		execute 'set undodir+=n' . s:undo_dir . '/undodir'
+"	endif
+"
+"endif
 " }}}
 " Mappings {{{
 " Y to act like D and C, i.e. to yank until EOL
@@ -440,8 +437,8 @@ endfunction
 
 nnoremap <silent> <Down> :<C-u>call <SID>Undojoin()<CR>:<C-u>move +1<CR>==:<C-u>call <SID>SetUndojoinFlag('n')<CR>
 nnoremap <silent> <Up>   :<C-u>call <SID>Undojoin()<CR>:<C-u>move -2<CR>==:<C-u>call <SID>SetUndojoinFlag('n')<CR>
-xnoremap <silent> <Down> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '>+1<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
-xnoremap <silent> <Up>   :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '<-2<CR>gv=:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
+xnoremap <silent> <Down> :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '>+1<CR>gv=gv:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
+xnoremap <silent> <Up>   :<C-u>call <SID>Undojoin()<CR>:<C-u>'<,'>move '<-2<CR>gv=gv:<C-u>call <SID>SetUndojoinFlag('v')<CR>gv
 " }}}
 " }}}
 " Autocommands {{{
@@ -500,3 +497,9 @@ endif
 let g:gruvbox_italic=1
 colorscheme gruvbox
 " }}}
+for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '%', '`' ]
+	execute 'xnoremap i' . char . ' :<C-u>normal! T' . char . 'vt' . char . '<CR>'
+	execute 'onoremap i' . char . ' :normal vi' . char . '<CR>'
+	execute 'xnoremap a' . char . ' :<C-u>normal! F' . char . 'vf' . char . '<CR>'
+	execute 'onoremap a' . char . ' :normal va' . char . '<CR>'
+endfor
