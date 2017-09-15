@@ -12,7 +12,9 @@ let g:mapleader = ' '
 " (off, off, off) Enable filetype detection, indentation, plugin
 filetype indent plugin on
 " (off) Enable syntax highlighting
-syntax enable
+if !exists("g:syntax_on")
+	syntax enable
+endif
 " (off) automatically save undo history to undo file when writing
 set undofile
 " ("") clipboard
@@ -121,7 +123,6 @@ let g:sym_error		= (s:unicode_on == 1) ? "" : "--"
 
 let g:sym_subscripts	= ["₀","₁","₂","₃","₄","₅","₆","₇","₈","₉"]
 let g:sym_superscripts	= ["⁰","¹","²","³","⁴","⁵","⁶","⁷","⁸","⁹"]
-
 
 "}}}
 " (tab:> ,trail:-,nbsp:+) listchars {{{
@@ -329,15 +330,6 @@ if has('viminfo')
 		execute 'set viminfo+=n' . s:vim_dir . '/viminfo'
 	endif
 endif
-
-" undodir
-"if has('persistent_undo')
-"	" (.) List of directory names for undo files, seperated with commas
-"	if isdirectory(s:undo_dir)
-"		execute 'set undodir+=n' . s:undo_dir . '/undodir'
-"	endif
-"
-"endif
 " }}}
 " Mappings {{{
 " Y to act like D and C, i.e. to yank until EOL
@@ -448,7 +440,7 @@ if has('autocmd')
 
 	" GrepWindow : stick grep results in full-width bottom quickfix window
 	augroup GrepWindow
-		au!
+		autocmd!
 		autocmd QuickFixCmdPost * botright cwindow
 	augroup END
 
@@ -460,7 +452,7 @@ if has('autocmd')
 
 	" VimStartup:  startup necessities, runs after vim startup sequence complete
 	augroup VimStartup
-		au!
+		autocmd!
 		" set colorscheme diff vs. non-diff
 		autocmd VimEnter * call C3E_ToggleColorscheme()
 		autocmd VimEnter * call C3E_TablineRefresh()
@@ -470,7 +462,7 @@ if has('autocmd')
 
 	" WindowCleaner: window-specific settings for buffer / filetypes
 	augroup WindowCleaner
-		au!
+		autocmd!
 		autocmd WinEnter * if index(s:buf_cursorline, &ft) >= 0 | :setlocal cursorline
 		autocmd WinEnter * if index(s:buf_nonumber, &ft) >= 0	| :setlocal nobuflisted nonumber norelativenumber
 
@@ -480,7 +472,7 @@ if has('autocmd')
 
 	" DashKeywordSetter: Set DashKeywords based on filetype
 	augroup DashKeywordSetter
-		au!
+		autocmd!
 		"autocmd FileType * if index(s:buf_nonumber, &ft) < 0 | execute "DashKeywords! " . &ft
 	augroup END
 
