@@ -127,6 +127,10 @@ alias ll="ls -N --color=auto -l -h"
 
 # grep
 alias grep="grep --color=auto"
+
+# tree
+alias tree="tree -C | less"
+
 # }}}
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval $( dircolors -b $HOME/.config/dotfiles/LS_COLORS )
