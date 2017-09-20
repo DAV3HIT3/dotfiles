@@ -1,5 +1,5 @@
-" vim:ft=vim:fdm=marker
 " 24-bit color {{{
+" vim:ft=vim:fdm=marker
 if has('termguicolors')
 	set termguicolors
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -55,8 +55,6 @@ set smartcase
 set hlsearch
 " (off) match search pattern as it is typed
 set incsearch
-" (manual) Syntax highlighting items specify folds
-set foldmethod=syntax
 " (3000) Maximum column in which to search for syntax items
 set synmaxcol=160
 " (0) maximum width of text that is being inserted
@@ -457,7 +455,6 @@ if has('autocmd')
 		autocmd VimEnter * call C3E_ToggleColorscheme()
 		autocmd VimEnter * call C3E_TablineRefresh()
 		autocmd VimEnter * :AirlineRefresh
-		autocmd VimEnter * execute 'hi Normal guibg=NONE ctermbg=NONE'
 	augroup END
 
 	" WindowCleaner: window-specific settings for buffer / filetypes
@@ -465,10 +462,14 @@ if has('autocmd')
 		autocmd!
 		autocmd WinEnter * if index(s:buf_cursorline, &ft) >= 0 | :setlocal cursorline
 		autocmd WinEnter * if index(s:buf_nonumber, &ft) >= 0	| :setlocal nobuflisted nonumber norelativenumber
-
-		"autocmd WinEnter * if index(s:buf_nonumber, &ft) < 0	| :setlocal number relativenumber
-		"autocmd WinLeave * if index(s:buf_nonumber, &ft) < 0	| :setlocal nonumber norelativenumber
 	augroup END
+
+	" FoldMethod: set foldmethod per filetype
+	augroup FoldMethod
+		autocmd!
+		autocmd BufRead *.txt,*.log set foldmethod=manual
+	augroup END
+
 
 	" DashKeywordSetter: Set DashKeywords based on filetype
 	augroup DashKeywordSetter
