@@ -452,7 +452,7 @@ if has('autocmd')
 	augroup VimStartup
 		autocmd!
 		" set colorscheme diff vs. non-diff
-		autocmd VimEnter * call C3E_ToggleColorscheme()
+		"autocmd VimEnter * :C3EToggleDiff
 		autocmd VimEnter * call C3E_TablineRefresh()
 		autocmd VimEnter * :AirlineRefresh
 	augroup END
