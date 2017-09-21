@@ -467,7 +467,7 @@ if has('autocmd')
 	" FoldMethod: set foldmethod per filetype
 	augroup FoldMethod
 		autocmd!
-		autocmd BufRead *.txt,*.log set foldmethod=manual
+		autocmd BufRead *.txt,*.log set foldmethod=marker
 	augroup END
 
 
