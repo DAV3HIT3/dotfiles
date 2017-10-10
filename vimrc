@@ -203,7 +203,7 @@ Plug 'vim-airline/vim-airline'
 " A vim keymap-display loosely inspired by emacs's guide-key.
 Plug 'hecal3/vim-leader-guide'
 " A code-completion engine for Vim
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 " Generates config files for YouCompleteMe
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " fugitive.vim: a Git wrapper so awesome, it should be illegal
