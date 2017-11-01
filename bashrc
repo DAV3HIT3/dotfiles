@@ -18,31 +18,16 @@ shopt -s globstar
 set -o physical
 #}}}
 
-## Supporting files (load if present)
-__CONFIG_FILES="${HOME}/.config/dotfiles/*.bash"
-if [ -f ${__CONFIG_FILES} ]; then
-	for __CONFIG_FILE in ${__CONFIG_FILES}; do
-		# shellcheck disable=SC1090
-		source "${__CONFIG_FILE}"
-	done
-fi
-unset __CONFIG_FILES
-
 # completion
 # shellcheck disable=SC1091
 [[ -f /usr/local/etc/bash_completion ]] && . /usr/local/etc/bash_completion
 
-# bash completions {{{
-__COMPLETION_FILE_DIR="${HOME}/.config/c3e/bash/bash_completion.d"
-__COMPLETION_FILES="${HOME}/.config/c3e/bash/bash_completion.d/*"
-if [[ -d "${__COMPLETION_FILE_DIR}" ]]; then
-	for __COMPLETION_FILE in ${__COMPLETION_FILES}; do
-		# shellcheck disable=SC1090
-		source "${__COMPLETION_FILE}"
-	done
-fi
-# }}}
-
 # FZF
 # shellcheck disable=SC1090
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f "${HOME}/.fzf.bash" ] && source "${HOME}/.fzf.bash"
+
+# liquidprompt
+# git clone https://github.com/nojhan/liquidprompt.git
+# shellcheck disable=SC1090
+[ -d "${HOME}/liquidprompt" ] && source "${HOME}/liquidprompt/liquidprompt"
+
