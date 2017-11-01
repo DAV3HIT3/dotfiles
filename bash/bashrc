@@ -20,7 +20,7 @@ set -o physical
 
 # completion
 # shellcheck disable=SC1091
-[[ -f /usr/local/etc/bash_completion ]] && . /usr/local/etc/bash_completion
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # FZF (from fzf vim plugin)
 __FZF_BASH_SCRIPT="${HOME}/.fzf.bash"
@@ -37,3 +37,14 @@ __LIQUIDPROMPT="${HOME}/liquidprompt/liquidprompt"
 __GRUVBOX_TERM_SCRIPT="${HOME}/.vim/plugged/gruvbox/gruvbox_256palette.sh"
 # shellcheck disable SC1090
 [ -f "${__GRUVBOX_TERM_SCRIPT}" ] && source "${__GRUVBOX_TERM_SCRIPT}"
+
+## Supporting files (load if present)
+__CONFIG_FILES="${HOME}/.config/dotfiles/shell"
+if [ -d "${__CONFIG_FILES}" ]; then
+	for __CONFIG_FILE in "${__CONFIG_FILES}"/*; do
+		# shellcheck disable=SC1090
+		source "${__CONFIG_FILE}"
+	done
+fi
+unset __CONFIG_FILES
+

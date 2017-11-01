@@ -1,0 +1,11 @@
+# vim:ft=sh:fdm=marker
+
+# [BASH] [ZSH] info
+alias info='info --vi-keys'
+
+# [BASH] [ZSH] ls
+alias ls="ls -N --color=auto"
+alias ll="ls -N --color=auto -l -h"
+
+# [BASH] [ZSH] grep
+alias grep="grep --color=auto"
