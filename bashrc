@@ -19,11 +19,13 @@ set -o physical
 #}}}
 
 ## Supporting files (load if present)
-__CONFIG_FILES="${HOME}/.c3e/shell/shell.d/*.bash"
-for __CONFIG_FILE in ${__CONFIG_FILES}; do
-# shellcheck disable=SC1090
-	source "${__CONFIG_FILE}"
-done
+__CONFIG_FILES="${HOME}/.config/dotfiles/*.bash"
+if [ -f ${__CONFIG_FILES} ]; then
+	for __CONFIG_FILE in ${__CONFIG_FILES}; do
+		# shellcheck disable=SC1090
+		source "${__CONFIG_FILE}"
+	done
+fi
 unset __CONFIG_FILES
 
 # completion

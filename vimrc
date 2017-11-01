@@ -193,7 +193,10 @@ if executable('rg')
 endif
 "}}}
 " Plugins {{{
+" Minimalist Vim Plugin Manager
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.vim/plugged')
+
 " Retro groove color scheme for Vim
 Plug 'morhetz/gruvbox'
 " Dark powered asynchronous unite all interfaces for Neovim/Vim8
@@ -227,9 +230,9 @@ if has('osx')
 	Plug 'rizzatti/dash.vim'
 endif
 
-" C3E Plugin(s)
-Plug '~/Projects/C3E/c3e-vim-tabline'
-Plug '~/Projects/C3E/c3e-vim-leader'
+" My personal plugins
+Plug 'jasonmelton/c3e-vim-tabline'
+Plug 'jasonmelton/c3e-vim-leader'
 call plug#end()
 " }}}
 " Plugin config {{{
