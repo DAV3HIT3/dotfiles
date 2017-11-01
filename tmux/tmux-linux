@@ -1,0 +1,5 @@
+# vim:ft=conf:fdm=marker
+
+# [RH7] [TMUX1.8]
+bind-key n split-window -h -c "#{pane_current_path}"
+bind-key v split-window -v -c "#{pane_current_path}"

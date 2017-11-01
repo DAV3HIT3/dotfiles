@@ -1,15 +1,42 @@
 # vim:ft=conf:fdm=marker
 
-# OSX-specific configuration
+# [OSX] [TMUX2.x]
 
-# [OSX] Don't run new tmux windows as login sessions (path_helper woes)
+# Don't run new tmux windows as login sessions (path_helper woes)
 set -g default-command 'reattach-to-user-namespace ${SHELL}'
 
-# [OSX] Set up TERM (italics file in .iterm stow)
+# Set up TERM (italics file in .iterm stow)
 set -g default-terminal "tmux-256color"
 
-# [OSX] Bind ']' to use pbpaste
+# Bind ']' to use pbpaste
 bind-key ] run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
 
-# [OSX] Capture pane to new vim session
+# Capture pane to new vim session
 bind-key e capture-pane -S - '\;' split-window -h "tmux show-buffer | sed '/^\s*$/d' | reattach-to-user-namespace view - +'$' +'set clipboard=unnamed'; reattach-to-user-namespace pbpaste | tmux load-buffer -"
+
+bind-key n split-window -hb -c "#{pane_current_path}"
+bind-key v split-window -vb -c "#{pane_current_path}"
+
+# PLUGINS {{{
+# tmux plugin manager
+# git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+set -g @plugin 'tmux-plugins/tpm'
+# Persists tmux environment across system restarts.
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+# Continuous saving of tmux environment. Automatic restore when tmux is started.
+# Automatic tmux start when computer is turned on.
+set -g @plugin 'tmux-plugins/tmux-continuum'
+
+# My plugins
+set -g @plugin 'jasonmelton/c3e-tmuxline'
+set -g @plugin 'jasonmelton/c3e-tmuxpane'
+
+# Plugin configuration
+# Automatically start iTerm, tmux, fullscreen
+set -g @continuum-boot 'on'
+set -g @continuum-boot-options 'iterm,fullscreen'
+set -g @continuum-restore 'on'
+
+# Initialize plugin manager (keep at bottom of tmux.conf)
+if-shell "test -f ~/.tmux/plugins/tpm/tpm" "run ~/.tmux/plugins/tpm/tpm"
+#}}}
