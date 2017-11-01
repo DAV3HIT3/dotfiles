@@ -22,12 +22,18 @@ set -o physical
 # shellcheck disable=SC1091
 [[ -f /usr/local/etc/bash_completion ]] && . /usr/local/etc/bash_completion
 
-# FZF
+# FZF (from fzf vim plugin)
+__FZF_BASH_SCRIPT="${HOME}/.fzf.bash"
 # shellcheck disable=SC1090
-[ -f "${HOME}/.fzf.bash" ] && source "${HOME}/.fzf.bash"
+[ -f "${__FZF_BASH_SCRIPT}" ] && source "${__FZF_BASH_SCRIPT}"
 
 # liquidprompt
 # git clone https://github.com/nojhan/liquidprompt.git
+__LIQUIDPROMPT="${HOME}/liquidprompt/liquidprompt"
 # shellcheck disable=SC1090
-[ -d "${HOME}/liquidprompt" ] && source "${HOME}/liquidprompt/liquidprompt"
+[ -f "${__LIQUIDPROMPT}" ] && source "${__LIQUIDPROMPT}"
 
+# gruvbox terminal colors (from gruvbox vim plugin)
+__GRUVBOX_TERM_SCRIPT="${HOME}/.vim/plugged/gruvbox/gruvbox_256palette.sh"
+# shellcheck disable SC1090
+[ -f "${__GRUVBOX_TERM_SCRIPT}" ] && source "${__GRUVBOX_TERM_SCRIPT}"

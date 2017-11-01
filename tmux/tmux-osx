@@ -1,0 +1,15 @@
+# vim:ft=conf:fdm=marker
+
+# OSX-specific configuration
+
+# [OSX] Don't run new tmux windows as login sessions (path_helper woes)
+set -g default-command 'reattach-to-user-namespace ${SHELL}'
+
+# [OSX] Set up TERM (italics file in .iterm stow)
+set -g default-terminal "tmux-256color"
+
+# [OSX] Bind ']' to use pbpaste
+bind-key ] run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
+
+# [OSX] Capture pane to new vim session
+bind-key e capture-pane -S - '\;' split-window -h "tmux show-buffer | sed '/^\s*$/d' | reattach-to-user-namespace view - +'$' +'set clipboard=unnamed'; reattach-to-user-namespace pbpaste | tmux load-buffer -"
