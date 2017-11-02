@@ -29,7 +29,7 @@ __FZF_BASH_SCRIPT="${HOME}/.fzf.bash"
 
 # liquidprompt
 # git clone https://github.com/nojhan/liquidprompt.git
-__LIQUIDPROMPT="${HOME}/liquidprompt/liquidprompt"
+__LIQUIDPROMPT="/usr/local/src/liquidprompt/liquidprompt"
 # shellcheck disable=SC1090
 [ -f "${__LIQUIDPROMPT}" ] && source "${__LIQUIDPROMPT}"
 
