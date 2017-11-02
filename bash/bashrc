@@ -48,3 +48,8 @@ if [ -d "${__CONFIG_FILES}" ]; then
 fi
 unset __CONFIG_FILES
 
+# TMUX TERM workaround (only necessary on tmux 1.8 (RHEL7))
+if [[ "${TERM}" =~ "screen" ]] && [[ -v TMUX ]]; then
+	TERM="tmux-256color"
+	export TERM
+fi

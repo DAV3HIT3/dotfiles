@@ -1,6 +1,7 @@
 " 24-bit color {{{
 " vim:ft=vim:fdm=marker
-if has('termguicolors')
+" [OSX] Necessary on OSX, breaks Linux
+if has('termguicolors') && has('mac')
 	set termguicolors
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -490,9 +491,12 @@ endif
 "}}}
 " Colorscheme {{{
 " NOTE: Must be *after* plugin section
+set background=dark
 let g:gruvbox_italic=1
 colorscheme gruvbox
 " }}}
+
+" EXPERIMENTAL
 for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '%', '`' ]
 	execute 'xnoremap i' . char . ' :<C-u>normal! T' . char . 'vt' . char . '<CR>'
 	execute 'onoremap i' . char . ' :normal vi' . char . '<CR>'

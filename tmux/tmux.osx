@@ -5,8 +5,6 @@
 # Don't run new tmux windows as login sessions (path_helper woes)
 set -g default-command 'reattach-to-user-namespace ${SHELL}'
 
-# Set up TERM (italics file in .iterm stow)
-set -g default-terminal "tmux-256color"
 
 # Bind ']' to use pbpaste
 bind-key ] run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
