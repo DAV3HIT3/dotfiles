@@ -16,9 +16,9 @@ function mark {
 	ln -s "$PWD" "${MARKPATH}/$1"
 
 	if [ $? -eq 0 ]; then
-		echo "Mark $1 added."
+		echo "Mark added."
 	else
-		echo "ERROR! Unable to add mark $1"
+		echo "FAILURE: Unable to add mark."
 	fi
 }
 
@@ -26,8 +26,14 @@ function mark {
 function unmark {
 	if [ -h "${MARKPATH}/$1" ]; then
 		rm -i "${MARKPATH}/$1"
+
+		if [ $? -eq 0 ]; then
+			echo "Mark removed."
+		else
+			echo "FAILURE: Unable to remove mark."
+		fi
 	else
-		echo "Mark $1 not found. Nothing to do."
+		echo "Mark not found. Nothing to do."
 	fi
 
 }
