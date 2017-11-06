@@ -11,5 +11,13 @@ bind-key ] run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux 
 # Capture pane to new vim session
 bind-key e capture-pane -S - '\;' split-window -h "tmux show-buffer | sed '/^\s*$/d' | reattach-to-user-namespace view - +'$' +'set clipboard=unnamed'; reattach-to-user-namespace pbpaste | tmux load-buffer -"
 
-bind-key n split-window -hb -c "#{pane_current_path}"
-bind-key v split-window -vb -c "#{pane_current_path}"
+
+# vim-like bindings for pane and window
+# pane : move / split / close - lowercase
+bind-key -r h select-pane -t {left-of}
+bind-key -r j select-pane -t {down-of}
+bind-key -r k select-pane -t {up-of}
+bind-key -r l select-pane -t {right-of}
+
+bind-key n split-window -hb -c #{pane_current_path}
+bind-key v split-window -vb -c #{pane_current_path}

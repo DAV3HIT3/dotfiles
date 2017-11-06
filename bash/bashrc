@@ -17,6 +17,32 @@ shopt -s globstar
 # use physical path
 set -o physical
 #}}}
+# Shell variables {{{
+# Don't put the following in the history
+HISTIGNORE="${HISTIGNORE}:cd:cd ..:tmux:vim:alias:exit:l[slx]:history *:pwd:clear:[bf]g"
+# Don't put commands that begin with space or dupes in history
+HISTCONTROL='ignoreboth:erasedups'
+# (500) Number of commands to remember in the command history
+HISTSIZE=2000
+#}}}
+# Environmental variables {{{
+export VISUAL="vim"
+export EDITOR="${VISUAL}"
+
+# less config
+# x4 : tabstop 4 (vs 8)
+# F  : exit if output fits on one screen
+# R  : raw control codes
+# S  : chop long lines
+# X  : don't send termcap init/deinit
+# s  : combine multiple blank lines into 1
+export LESS="-x4FRSXs"
+export PAGER="less"
+
+# vim as man pager 
+# Set true to enable vim as man pager
+export MANPAGER="/bin/sh -c \"col -b | vim -NRM -c 'ru ftplugin/man.vim' -c 'set nofen ch=1 stal=0 ls=0' -c 'setlocal nonu nornu cc=' -c 'setf man' -\""
+#}}}
 
 # completion
 # shellcheck disable=SC1091
@@ -27,7 +53,14 @@ __FZF_BASH_SCRIPT="${HOME}/.fzf.bash"
 # shellcheck disable=SC1090
 [ -f "${__FZF_BASH_SCRIPT}" ] && source "${__FZF_BASH_SCRIPT}"
 
-# liquidprompt
+# prompt (liquidprompt + customizations)
+
+PROMPT_COMMAND="history -a"
+__TMUX_SETPWD="${HOME}/.config/dotfiles/tmux/tmux-setpwd.sh"
+if [ -f "${__TMUX_SETPWD}" ]; then
+	PROMPT_COMMAND="${PROMPT_COMMAND};${TMUX_SETPWD}"
+fi
+
 # git clone https://github.com/nojhan/liquidprompt.git
 __LIQUIDPROMPT="/usr/local/src/liquidprompt/liquidprompt"
 # shellcheck disable=SC1090
@@ -53,3 +86,5 @@ if [[ "${TERM}" =~ "screen" ]] && [[ -v TMUX ]]; then
 	TERM="tmux-256color"
 	export TERM
 fi
+
+

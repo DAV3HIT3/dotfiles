@@ -1,5 +1,19 @@
 # vim:ft=conf:fdm=marker
 
 # [RH7] [TMUX1.8]
-bind-key n split-window -h -c "#{pane_current_path}"
-bind-key v split-window -v -c "#{pane_current_path}"
+
+# vim-like bindings for pane and window
+# pane : move / split / close - lowercase
+bind-key -r h select-pane -L
+bind-key -r j select-pane -D
+bind-key -r k select-pane -U
+bind-key -r l select-pane -R
+
+
+#bind-key c run-shell 'tmux new-window 		"cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL"'
+bind-key v run-shell 'tmux split-window -v 	"cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL"'
+bind-key n run-shell 'tmux split-window -h 	"cd \"$(tmux show-environment $(echo "TMUXPWD_#D" | tr -d %) | sed -e "s/^.*=//")\"; exec $SHELL"'
+
+
+bind-key c run-shell 'tmux new-window; cd $(tmux run-shell \"echo $PWD\")'
+
