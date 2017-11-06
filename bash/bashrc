@@ -19,7 +19,7 @@ set -o physical
 #}}}
 # Shell variables {{{
 # Don't put the following in the history
-HISTIGNORE="${HISTIGNORE}:cd:cd [~-.]:cd ..:tmux:vim:alias:exit:l[slx]:history*:pwd:clear:[bf]g:mount:unmount"
+HISTIGNORE="${HISTIGNORE}?:??:cd [~-.]:cd ..:tmux:vim:declare:env:alias:exit:history*:pwd:clear:jobs:mount:unmount"
 # Don't put commands that begin with space or dupes in history
 HISTCONTROL='ignoreboth:erasedups'
 # (500) Number of commands to remember in the command history
