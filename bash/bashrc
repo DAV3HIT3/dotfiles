@@ -19,7 +19,7 @@ set -o physical
 #}}}
 # Shell variables {{{
 # Don't put the following in the history
-HISTIGNORE="${HISTIGNORE}:cd:cd ..:tmux:vim:alias:exit:l[slx]:history *:pwd:clear:[bf]g"
+HISTIGNORE="${HISTIGNORE}:cd:cd [~-.]:cd ..:tmux:vim:alias:exit:l[slx]:history*:pwd:clear:[bf]g:mount:unmount"
 # Don't put commands that begin with space or dupes in history
 HISTCONTROL='ignoreboth:erasedups'
 # (500) Number of commands to remember in the command history
@@ -39,9 +39,10 @@ export EDITOR="${VISUAL}"
 export LESS="-x4FRSXs"
 export PAGER="less"
 
-# vim as man pager 
+# vim as man pager
 # Set true to enable vim as man pager
-export MANPAGER="/bin/sh -c \"col -b | vim -NRM -c 'ru ftplugin/man.vim' -c 'set nofen ch=1 stal=0 ls=0' -c 'setlocal nonu nornu cc=' -c 'setf man' -\""
+export MANPAGER="/bin/sh -c \"col -b | vim -NRM -c 'runtime ftplugin/man.vim' -c 'set nofoldenable cmdheight=1 showtabline=0 laststatus=0' -c 'setlocal nonumber norelativenumber colorcolumn=' -c 'setfiletype man' -\""
+
 #}}}
 
 # completion
@@ -53,8 +54,7 @@ __FZF_BASH_SCRIPT="${HOME}/.fzf.bash"
 # shellcheck disable=SC1090
 [ -f "${__FZF_BASH_SCRIPT}" ] && source "${__FZF_BASH_SCRIPT}"
 
-# prompt (liquidprompt + customizations)
-
+# [EXPERIMENTAL] prompt (liquidprompt + customizations)
 PROMPT_COMMAND="history -a"
 __TMUX_SETPWD="${HOME}/.config/dotfiles/tmux/tmux-setpwd.sh"
 if [ -f "${__TMUX_SETPWD}" ]; then
@@ -66,10 +66,16 @@ __LIQUIDPROMPT="/usr/local/src/liquidprompt/liquidprompt"
 # shellcheck disable=SC1090
 [ -f "${__LIQUIDPROMPT}" ] && source "${__LIQUIDPROMPT}"
 
-# gruvbox terminal colors (from gruvbox vim plugin)
+# [RHEL7] [TMUX1.8] gruvbox terminal colors (from gruvbox vim plugin)
 __GRUVBOX_TERM_SCRIPT="${HOME}/.vim/plugged/gruvbox/gruvbox_256palette.sh"
 # shellcheck disable SC1090
 [ -f "${__GRUVBOX_TERM_SCRIPT}" ] && source "${__GRUVBOX_TERM_SCRIPT}"
+
+# [RHEL7] [TMUX1.8] TMUX TERM workaround
+if [[ "${TERM}" =~ "screen" ]] && [[ -v TMUX ]]; then
+	TERM="tmux-256color"
+	export TERM
+fi
 
 ## Supporting files (load if present)
 __CONFIG_FILES="${HOME}/.config/dotfiles/shell"
@@ -80,11 +86,3 @@ if [ -d "${__CONFIG_FILES}" ]; then
 	done
 fi
 unset __CONFIG_FILES
-
-# TMUX TERM workaround (only necessary on tmux 1.8 (RHEL7))
-if [[ "${TERM}" =~ "screen" ]] && [[ -v TMUX ]]; then
-	TERM="tmux-256color"
-	export TERM
-fi
-
-
