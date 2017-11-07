@@ -1,5 +1,7 @@
 # vim:ft=sh:fdm=marker
 
+echo "bashrc"
+
 # If not interactive, bail out
 [[ $- != *i* ]] && return
 
@@ -80,9 +82,12 @@ fi
 ## Supporting files (load if present)
 __CONFIG_FILES="${HOME}/.config/dotfiles/shell"
 if [ -d "${__CONFIG_FILES}" ]; then
-	for __CONFIG_FILE in "${__CONFIG_FILES}"/*; do
+	for __CONFIG_FILE in "${__CONFIG_FILES}"/*.bash; do
+		echo "source ${__CONFIG_FILE}"
 		# shellcheck disable=SC1090
 		source "${__CONFIG_FILE}"
 	done
 fi
 unset __CONFIG_FILES
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
