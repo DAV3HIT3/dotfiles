@@ -39,6 +39,10 @@
 
 # Session
 Session.vim
+viminfo
+
+# vim plugins
+vim/plugged/*
 
 # Temporary
 .netrwhist

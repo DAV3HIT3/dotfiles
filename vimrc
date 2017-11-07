@@ -12,6 +12,13 @@ endif
 let g:mapleader = ' '
 " (off, off, off) Enable filetype detection, indentation, plugin
 filetype indent plugin on
+" tabs have 4 spaces width
+set tabstop=4
+" when indent with '>', use 4 spaces width
+set shiftwidth=4
+" on pressing tab, insert spaces
+set expandtab
+
 " (off) Enable syntax highlighting
 if !exists("g:syntax_on")
 	syntax enable
@@ -19,7 +26,8 @@ endif
 " (off) automatically save undo history to undo file when writing
 set undofile
 " ("") clipboard
-set clipboard+=unnamed
+"set clipboard+=unnamed
+set clipboard=unnamed
 " (1) Always have a status line
 set laststatus=2
 " (1) Always show tab line
@@ -66,6 +74,7 @@ set nowrap
 set path=.,**
 " (off) Do not redraw screen while executing and other non-typed commands
 set lazyredraw
+"tab
 " }}}
 " Unicode {{{
 " Symbols are restricted to PragmataPro and FontAwesome
@@ -507,3 +516,6 @@ endfor
 
 " stupid end para cutter 
 nnoremap <leader>v	<C-V><C-End>$
+
+" Enable mouse wheel scrolling (normal mode)
+set mouse=n

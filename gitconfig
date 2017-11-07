@@ -1,0 +1,20 @@
+[user]
+	name = Dave Hite
+	email = dav3hit3@gmail.com
+[merge]
+	tool = kdiff3
+[mergetool "kdiff3"]
+	trustExitCode = false
+[diff]
+	guitool = kdiff3
+[difftool "kdiff3"]
+	trustExitCode = false
+#[push]
+#	default = simple
+[http]
+	proxy = http://proxyout.lanl.gov:8080
+[push]
+	default = simple
+[core]
+	whitespace = -trailing-space,-indent-with-non-tab,-tab-in-indent
+	excludesfile = /home/hite/.gitignore
