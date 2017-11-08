@@ -64,7 +64,7 @@ if [ -f "${__TMUX_SETPWD}" ]; then
 fi
 
 # git clone https://github.com/nojhan/liquidprompt.git
-__LIQUIDPROMPT="/usr/local/src/liquidprompt/liquidprompt"
+__LIQUIDPROMPT="${HOME}/dotfiles/liquidprompt/liquidprompt"
 # shellcheck disable=SC1090
 [ -f "${__LIQUIDPROMPT}" ] && source "${__LIQUIDPROMPT}"
 
