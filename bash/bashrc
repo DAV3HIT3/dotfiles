@@ -43,7 +43,7 @@ export PAGER="less"
 
 # vim as man pager
 # Set true to enable vim as man pager
-export MANPAGER="/bin/sh -c \"col -b | vim -NRM -c 'runtime ftplugin/man.vim' -c 'set nofoldenable cmdheight=1 showtabline=0 laststatus=0' -c 'setlocal nonumber norelativenumber colorcolumn=' -c 'setfiletype man' -\""
+#export MANPAGER="/bin/sh -c \"col -b | vim -NRM -c 'runtime ftplugin/man.vim' -c 'set nofoldenable cmdheight=1 showtabline=0 laststatus=0' -c 'setlocal nonumber norelativenumber colorcolumn=' -c 'setfiletype man' -\""
 
 #}}}
 
