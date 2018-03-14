@@ -19,6 +19,12 @@ set shiftwidth=4
 " on pressing tab, insert spaces
 set expandtab
 
+" ignore whitespace in vimdiff
+if &diff
+    set diffopt+=iwhite
+endif
+
+
 " (off) Enable syntax highlighting
 if !exists("g:syntax_on")
 	syntax enable
